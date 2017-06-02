@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>归档 - </title>
+    <title></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -146,77 +146,69 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-<!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
 <header class="intro-header" style="background-image: url('http://oqvcferhi.bkt.clouddn.com/xiaoxiao.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>归档</h1>
+                <div class="post-heading">
+                    <h1>Untitled</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2017-06-02
+                        
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
             
-                <div class="post-preview">
-    <a href="/2017/06/02/setTimeout/">
-        <h1 class="post-title archive">
-            Untitled
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-06-02
-    </p>
-</div>
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>#JavaScript中setTimeout函数的使用</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>周五的晚上，本以为可以下个早班，回去补看NBA总决赛录像的。谁知道在这个时候，我写下了这样的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">okHandler</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	validateFieldsAndScroll(<span class="function">(<span class="params">errors, values</span>) =&gt;</span> &#123;</div><div class="line"> 		setTimeout(dispatch(&#123; <span class="attr">type</span>: <span class="string">'home/hideModal'</span>, <span class="attr">payload</span>:<span class="string">''</span>&#125;),<span class="number">5000</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序的时候，控制台提示dispatch未定义。一开始觉得很不可思议，dispatch明明在组件中可以使用，为什么放在这里就是未定义了呢？</p>
+<p>##探究<br>在一番google之后，我在《Dive Into Greasemonkey》这本书中找到了答案。以下是引用这本书的部分章节：</p>
+<h3 id="显示“Hello-world-”提示信息"><a href="#显示“Hello-world-”提示信息" class="headerlink" title="显示“Hello world!”提示信息"></a>显示“Hello world!”提示信息</h3><p><code>alert(&#39;Hello world!&#39;);</code></p>
+<p>尽管这段代码仿佛够用了，而且也达到了目的。Greasemonkey 实际上在幕后做了很多的事情来确保用户脚本不会与页面所包含的原有脚本发生严重的冲突。特别是它会自动的把您的用户脚本封装在一个匿名的函数包里。一般情况下，您可以忽视，但是终究有一天会让您遇到麻烦。所以最好现在就了解一下。<br>最经常遇到的麻烦之一是在用户脚本里定义的变量和函数不能被别的脚本访问。事实上，只要用户脚本运行完了，所有的变量和函数就都不能使用了。如果您期望使用 window.setTimeout 函数，或者在链接挂上字符串式的 onclick 属性然后期望 Javascript 稍后调用您的函数，那么您会遇到问题。<br>例如，下面这个用户脚本中定义了一个函数 helloworld， 然后尝试设置一个计数器来在一秒后调用这个函数。</p>
+<h3 id="延迟调用函数的错误方法"><a href="#延迟调用函数的错误方法" class="headerlink" title="延迟调用函数的错误方法"></a>延迟调用函数的错误方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">helloworld</span>(<span class="params"></span>) </span>&#123;</div><div class="line">alert(<span class="string">'Hello world!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.setTimeout(<span class="string">"helloworld()"</span>, <span class="number">60</span>);</div></pre></td></tr></table></figure>
+<p>这段代码没有起任何作用；不会弹出提示窗口。如果您打开错误控制台，会看到一个异常：Error: helloworld is not defined.这是因为当延迟结束，开始调用helloworld()时，helloworld函数已经不存在了。<br>如果您需要引用用户脚本中的变量或者函数，应该显式的把它们定义为window对象的属性，它是始终存在的。</p>
+<h3 id="延迟调用函数的更好方法"><a href="#延迟调用函数的更好方法" class="headerlink" title="延迟调用函数的更好方法"></a>延迟调用函数的更好方法</h3><p><code>window.setTimeout(function() { alert(&#39;Hello world!&#39;) }, 60);</code></p>
+<p>我在这里所做的是建立一个没有名字的函数（一个“匿名函数”)，然后直接把它传递给 window.setTimeout。这样可以完成与上个例子相同的事，而不会留下痕迹。例如不会被其它的脚本检测到。<br>我发现我在写用户脚本时经常使用匿名函数。它们很适合创建“一次性”函数，然后当作参数传递给类似window.setTimeout，document.addEventListener 或者赋值给事件句柄像 click 或 submit。</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>····天色已晚   明日再更</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
             
-                <div class="post-preview">
-    <a href="/2017/06/01/demo1/">
-        <h1 class="post-title archive">
-            旅途
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-            Posted by jj on
-        
-        2017-06-01
-    </p>
-</div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
             
-                <div class="post-preview">
-    <a href="/2017/05/31/hello-world/">
-        <h1 class="post-title archive">
-            Hello World
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-05-31
-    </p>
-</div>
-            
-            <div class="archive-before-pagination"></div>
-            <ul class="pager">
-    
-    
-</ul>
         </div>
     </div>
-</div>
-
+</article>
 
     <!-- Footer -->
     <hr />
