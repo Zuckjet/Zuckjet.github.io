@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="JavaScript中setTimeout函数的使用"/>
+        <meta property="og:title" content="setTimeout函数"/>
     
 
     <!--Open Graph Description-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>JavaScript中setTimeout函数的使用 - 大猪熬药</title>
+    <title>setTimeout函数 - 大猪熬药</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -101,7 +101,7 @@
                     <li>
                         <a href="/">
                             
-                                Home
+                                主页
                             
                         </a>
                     </li>
@@ -109,7 +109,7 @@
                     <li>
                         <a href="/archives">
                             
-                                Archives
+                                归档
                             
                         </a>
                     </li>
@@ -117,7 +117,7 @@
                     <li>
                         <a href="/tags">
                             
-                                Tags
+                                标签
                             
                         </a>
                     </li>
@@ -125,15 +125,7 @@
                     <li>
                         <a href="/categories">
                             
-                                Categories
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="https://github.com/klugjo/hexo-theme-clean-blog">
-                            
-                                <i class="fa fa-github fa-stack-2x"></i>
+                                关于我
                             
                         </a>
                     </li>
@@ -154,7 +146,11 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                    <h1>JavaScript中setTimeout函数的使用</h1>
+                    <h1>setTimeout函数</h1>
+                    
+                    <h2 class="post-subheading">
+                        JavaScript
+                    </h2>
                     
                     <span class="meta">
                         <!-- Date and Author -->
@@ -184,9 +180,9 @@
 
             <!-- Post Main Content -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>周五的晚上，本以为可以下个早班，回去补看NBA总决赛录像的。谁知道在这个时候，我写下了这样的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">okHandler</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	validateFieldsAndScroll(<span class="function">(<span class="params">errors, values</span>) =&gt;</span> &#123;</div><div class="line"> 		setTimeout(dispatch(&#123; <span class="attr">type</span>: <span class="string">'home/hideModal'</span>, <span class="attr">payload</span>:<span class="string">''</span>&#125;),<span class="number">5000</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+                <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>&nbsp;&nbsp;<br>周五的晚上，本以为可以下个早班，回去补看NBA总决赛录像的。谁知道在这个时候，我写下了这样的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">okHandler</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	validateFieldsAndScroll(<span class="function">(<span class="params">errors, values</span>) =&gt;</span> &#123;</div><div class="line"> 		setTimeout(dispatch(&#123; <span class="attr">type</span>: <span class="string">'home/hideModal'</span>, <span class="attr">payload</span>:<span class="string">''</span>&#125;),<span class="number">5000</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
 <p>运行程序的时候，控制台提示dispatch未定义。一开始觉得很不可思议，dispatch明明在组件中可以使用，为什么放在这里就是未定义了呢？</p>
-<p>##探究<br>在一番google之后，我在《Dive Into Greasemonkey》这本书中找到了答案。以下是引用这本书的部分章节：</p>
+<h2 id="探究"><a href="#探究" class="headerlink" title="探究"></a>探究</h2><p>在一番google之后，我在《Dive Into Greasemonkey》这本书中找到了答案。以下是引用这本书的部分章节：</p>
 <h3 id="显示“Hello-world-”提示信息"><a href="#显示“Hello-world-”提示信息" class="headerlink" title="显示“Hello world!”提示信息"></a>显示“Hello world!”提示信息</h3><p><code>alert(&#39;Hello world!&#39;);</code></p>
 <p>尽管这段代码仿佛够用了，而且也达到了目的。Greasemonkey 实际上在幕后做了很多的事情来确保用户脚本不会与页面所包含的原有脚本发生严重的冲突。特别是它会自动的把您的用户脚本封装在一个匿名的函数包里。一般情况下，您可以忽视，但是终究有一天会让您遇到麻烦。所以最好现在就了解一下。<br>最经常遇到的麻烦之一是在用户脚本里定义的变量和函数不能被别的脚本访问。事实上，只要用户脚本运行完了，所有的变量和函数就都不能使用了。如果您期望使用 window.setTimeout 函数，或者在链接挂上字符串式的 onclick 属性然后期望 Javascript 稍后调用您的函数，那么您会遇到问题。<br>例如，下面这个用户脚本中定义了一个函数 helloworld， 然后尝试设置一个计数器来在一秒后调用这个函数。</p>
 <h3 id="延迟调用函数的错误方法"><a href="#延迟调用函数的错误方法" class="headerlink" title="延迟调用函数的错误方法"></a>延迟调用函数的错误方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">helloworld</span>(<span class="params"></span>) </span>&#123;</div><div class="line">alert(<span class="string">'Hello world!'</span>);</div><div class="line">&#125;</div><div class="line"><span class="built_in">window</span>.setTimeout(<span class="string">"helloworld()"</span>, <span class="number">60</span>);</div></pre></td></tr></table></figure>
